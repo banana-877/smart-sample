@@ -1,7 +1,6 @@
-# 会員情報情報一覧取得
+# 会員情報登録
 
-- 会員テーブルから10件ずつ取得・またはログインID/氏名で検索する
-- 論理削除済みデータは取得しない
+- 会員テーブルにデータを登録する
 
 ## 要求
 
@@ -13,92 +12,79 @@
 ### エンドポイント
 
 ```
-GET /api/members
+POST /api/members
 ```
 
-### パラメーター
+### リクエスト
+ヘッダー: Content-Type:application/json
 
-クエリー:
 
-| パラメータ名   | 型        | 内容           | 必須 | 備考                                        | 
-| -------------- | --------- | -------------- | ---- | ------------------------------------------- | 
-| name           | string    | 会員名         |      | 部分一致で検索                              | 
-| gender         | integer[] | 性別           |      | 複数選択可<br>0: 回答なし, 1: 女性, 2: 男性 | 
-| email          | string    | メールアドレス |      | 部分一致で検索                              | 
-| tel            | string    | 電話番号       |      | 部分一致で検索                              | 
-| birthday_start | date      | 誕生日_開始    |      |                                             | 
-| birthday_end   | date      | 誕生日_終了    |      |                                             | 
-| page           | integer   | ページ番号     |      | 空の場合、1                                 | 
+ボディ:
+| パラメータ名         | 型     | 内容           | 必須 | 備考                               |
+| -------------------- | ------ | -------------- | ---- | ---------------------------------- |
+| name                 | string  | 会員名         | ⚪︎    | 255文字以内                         |
+| gender               | integer | 性別           | ⚪︎    | 0: 回答なし, 1: 女性, 2: 男性        |
+| birthday             | date    | 誕生日         | ⚪︎    | YYYY-MM-DD                         |
+| email                | string  | メールアドレス  | ⚪︎    | 有効なメールアドレス                   |
+| tel                  | string  | 電話番号       | ⚪︎    | 24文字以内                           |
+| note                 | string  | 備考           | -    |                                    |
 
 
 ### 例
 
 ```js
-const params = {
-  name: "太郎",
-  gender: [0, 1],
-  email: "@gmail.com",
-  tel: "080",
-  birthday_start: "1994-01-01",
-  birthday_end: "1994-12-31",
-  page: 2
+const data = {
+  name: "田中太郎",
+  gender: 0,
+  birthday: "1994-04-01",
+  email: "xxxxx@sample.com",
+  tel: "080-xxxx-xxxx",
+  note: "メモ"
 }
 
-// http://sample.com/api/members?name=太郎&gender[]=0&gender[]=1&email=@gmail.com&tel=080&birthday_start=1994-01-01&birthday_end=1994-12-31&page=2
-const data = api.get("/api/members",　params)
+axios.post("/api/members", data)
 ```
 
 ## 応答の本文
 
 ### 例
 
-- 200(データが１件も存在しない場合)
+- 201（Created）
 
 ```json
 {
-  "status_code": 200,
+  "status_code": 201,
   "data": {
-    "current_page": 1,
-    "data": [],
-    "from": null,
-    "last_page": 1,
-    "per_page": 10,
-    "to": null,
-    "total": 0
+    "id": 11,
+    "name": "田中太郎",
+    "gender": 0,
+    "birthday": "1994-04-01",
+    "email": "xxxxx@sample.com",
+    "tel": "080-xxxx-xxxx",
+    "note": "メモ",
+    "created_at": "2023-12-31 12:00:00",
+    "updated_at": "2023-12-31 12:00:00"
   }
 }
 ```
 
-- 200(データが１件以上存在する場合)
+- 400（バリデーションエラー）
 
 ```json
 {
-  "status_code": 200,
-  "data": {
-    "current_page": 2,
-    "data": [
-      {
-        "id": 11,
-        "name": "田中太郎",
-        "gender": 0,
-        "birthday": "1994-04-01"
-      },
-      {
-        "id": 2,
-        "user": {
-          "login_id": "a0002",
-          "name": "銀行次郎"
-        },
-        "auth": 1,
-        "lock_flg": 0
-      }
-    ],
-    "from": 11,
-    "last_page": 3,
-    "per_page": 10,
-    "to": 20,
-    "total": 30
-  }
+  "status_code": 400,
+  "errors": [
+    {
+      "name": [
+        "会員名は必ず指定してください。"
+      ]
+    },
+    {
+      "email": [
+        "メールアドレスには、有効なメールアドレスを指定してください。"
+      ]
+    }
+  ]
 }
 ```
 
