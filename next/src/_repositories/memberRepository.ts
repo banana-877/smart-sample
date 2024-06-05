@@ -51,7 +51,7 @@ export default {
           return false
         }
 
-        if (!isEmpty(searchParams.gender) && member.gender !== Number.parseInt(searchParams.gender)) {
+        if (searchParams.gender && !searchParams.gender.split(',').includes(member.gender.toString())) {
           // 性別検索
           return false
         }

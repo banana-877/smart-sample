@@ -18,6 +18,25 @@ namespace GenderType {
         return '男性'
       }
   };
+
+  export function all() {
+    return [
+      {label: label(GenderType.NonAnswered), value: GenderType.NonAnswered},
+      {label: label(GenderType.Female), value: GenderType.Female},
+      {label: label(GenderType.Male), value: GenderType.Male},
+    ]
+  }
+
+  export function from(genderType: string) {
+    switch (Number.parseInt(genderType)) {
+      case 1:
+        return GenderType.Female
+      case 2:
+        return GenderType.Male
+      default:
+        return GenderType.NonAnswered
+    }
+  }
 }
 
 export default GenderType;

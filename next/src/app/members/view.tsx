@@ -1,16 +1,17 @@
 'use client'
 
-import { Button } from "@/_components/FormParts/Button";
+import {Button} from "@/_components/FormParts/Button";
 import InputTextField from "@/_components/FormParts/InputTextField";
 import InputDatepickerRangeField from "@/_components/FormParts/InputDatePickerRangeField";
-import { useState, useEffect } from "react";
-import { SearchMembersParams } from "@/_types/params/searchMembersParams";
-import { Member } from "@/_types/models/member";
-import PaginationLinks, { PaginationProps } from "@/_components/LayoutParts/PaginationLinks";
+import React, {useEffect, useState} from "react";
+import {SearchMembersParams} from "@/_types/params/searchMembersParams";
+import {Member} from "@/_types/models/member";
+import PaginationLinks from "@/_components/LayoutParts/PaginationLinks";
 import GenderType from '@/_configs/enums/genderType';
 import {useRouter} from "next/navigation";
 import {queryParamsString} from "@/_utils/objectUtils";
 import {format} from "@formkit/tempo";
+import {InputCheckBoxField} from "@/_components/FormParts/InputCheckBoxField";
 
 export default function View(
   {
@@ -40,6 +41,19 @@ export default function View(
 
   const onChangeForm = (event: React.ChangeEvent<HTMLInputElement>) => {
     setParams((prev) => ({ ...prev, [event.target.name]: event.target.value }) as SearchMembersParams);
+  };
+
+  const onGenderType = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const paramGenderTypeList = params.gender ? params.gender.split(',').map((gender) => GenderType.from(gender)) : []
+
+    if (event.target.checked) {
+      const newGenderList = Array.from(new Set([...paramGenderTypeList, GenderType.from(event.target.value)]))
+      setParams((prev) => ({ ...prev, gender: newGenderList.join(',') }) as SearchMembersParams);
+    } else {
+      const newGenderList = Array.from(new Set(paramGenderTypeList))
+        .filter((gender) => gender !== GenderType.from(event.target.value))
+      setParams((prev) => ({ ...prev, gender: newGenderList.join(',') }) as SearchMembersParams)
+    }
   };
 
   const submitSearchForm = () => {
@@ -74,20 +88,27 @@ export default function View(
               />
             </div>
             <div className="flex flex-1 items-center px-5">
-              <InputTextField
-                fieldName="性別"
-                id="gender"
-                name="gender"
-                className="flex-1"
-                value={params.gender}
-                placeholder="入力してください"
-                autoComplete=""
-                onChange={(e) => onChangeForm(e)}
-              />
+              <label className={`pr-4`}>性別</label>
+              {
+                GenderType.all().map((genderType) => {
+                  const paramGenderTypeList = params.gender ? params.gender.split(',').map((gender) => GenderType.from(gender)) : []
+                  return (
+                    <>
+                      <InputCheckBoxField
+                        name={genderType.label}
+                        option={genderType}
+                        checked={Boolean(params.gender) && paramGenderTypeList.includes(genderType.value)}
+                        onChange={(e) => onGenderType(e)}
+                        className='w-24 p-2 mr-1 bg-inherit border-none'
+                      />
+                    </>
+                  )
+                })
+              }
             </div>
           </div>
           <div className="flex flex-wrap mt-4">
-            <div className="flex flex-1 items-center px-5">
+          <div className="flex flex-1 items-center px-5">
               <InputTextField
                 fieldName="メールアドレス"
                 id="email"
