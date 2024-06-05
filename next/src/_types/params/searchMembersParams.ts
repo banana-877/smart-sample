@@ -1,4 +1,4 @@
-export interface MemberParams {
+export interface SearchMembersParams extends Record<string, any>{
   name: string;
   gender: string;
   email: string;

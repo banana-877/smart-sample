@@ -1,12 +1,4 @@
-export interface ResponseWithMeta<T = any> {
-  status_code: number;
-  data: T[]
-  meta: {
-    last_page: number;
-  };
-}
-
-export interface ResponseWithPagination<T = any> {
+export interface PageResponse<T = any> {
   status_code: number
   data: {
     current_page: number
