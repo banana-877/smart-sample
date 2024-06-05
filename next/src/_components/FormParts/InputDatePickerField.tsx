@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format } from 'date-fns';
+import {format} from 'date-fns';
 import ja from 'date-fns/locale/ja';
 
 export default function InputDatePickerField({
@@ -32,7 +32,7 @@ export default function InputDatePickerField({
     wrapperClassName?: string;
   }
 ){
-  registerLocale('ja', ja);
+  registerLocale('ja', ja.ja);
 
   /**
    * String型日付をDate型に変換する
