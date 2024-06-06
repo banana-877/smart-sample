@@ -35,9 +35,9 @@ export default function InputDatePickerRangeField({
   return (
     <div className="flex items-center">
       <label className={fieldClassName}>{fieldName}</label>
-      <div className="bg-white1 border border-gray3 flex focus-within:border-bright-blue1 focus-within:outline-1 focus-within:outline-bright-blue1 items-center justify-center rounded-md shadow-sm flex-1">
+      <div className="bg-white1 border border-gray3 flex focus-within:border-bright-blue1 focus-within:outline-1 focus-within:outline-bright-blue1 items-center justify-center rounded-md shadow-sm flex-1 py-2 px-3">
         <InputDatePickerField
-          className={`bg-white1 border-none focus-visible:outline-0 text-center w-24 ${fromClassName}`}
+          className={`bg-white1 border-none focus-visible:outline-0 text-center w-24 shadow-none ${fromClassName}`}
           dateFormat={dateFormat}
           name={fromFieldName}
           onChange={onFromChange}
@@ -46,7 +46,7 @@ export default function InputDatePickerRangeField({
         />
         〜
         <InputDatePickerField
-          className={`bg-white1 border-none focus-visible:outline-0 text-center w-24 ${toClassName}`}
+          className={`bg-white1 border-none focus-visible:outline-0 text-center w-24 shadow-none ${toClassName}`}
           dateFormat={dateFormat}
           name={toFieldName}
           onChange={onToChange}

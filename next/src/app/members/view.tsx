@@ -136,15 +136,15 @@ export default function View(
           <div className="flex flex-wrap mt-4">
             <div className="flex flex-1 items-center px-5">
               <InputDatepickerRangeField
-                dateFormat="yyyyMMdd"
+                dateFormat="yyyy-MM-dd"
                 fieldName="生年月日"
                 fieldClassName="mr-4"
                 fromFieldName="birthday_start"
-                fromPlaceholder="20230101"
+                fromPlaceholder="2023-01-01"
                 fromSelected={params.birthday_start}
                 onFromChange={(date) => setParams((prevSearchParams) => ({...prevSearchParams, birthday_start: date }))}
                 toFieldName="birthday_end"
-                toPlaceholder="20230101"
+                toPlaceholder="2023-01-01"
                 toSelected={params.birthday_end}
                 onToChange={(date) => setParams((prevSearchParams) => ({...prevSearchParams, birthday_end: date }))}
               />
