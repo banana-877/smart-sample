@@ -52,7 +52,7 @@ export default function InputDatePickerField({
       <label className={fieldClassName}>{fieldName}</label>
       <DatePicker
         autoComplete='off'
-        className={`border-saison-gray2 rounded-md shadow-sm w-full ${disabled ? 'font-bold bg-gray-100' : ''} ${className}`}
+        className={`border-gray2 rounded-md w-full ${disabled ? 'font-bold bg-gray-100' : ''} ${className}`}
         dateFormat={dateFormat}
         locale="ja"
         name={name}

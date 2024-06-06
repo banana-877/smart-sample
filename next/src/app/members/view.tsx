@@ -70,7 +70,7 @@ export default function View(
             label="新規登録"
             color="blue"
             className="h-16"
-            onClick={() => ""}
+            onClick={() => router.push('/members/create')}
           />
         </div>
         <div className="w-full bg-blue4 mt-6 py-6">
@@ -139,6 +139,7 @@ export default function View(
                 dateFormat="yyyy-MM-dd"
                 fieldName="生年月日"
                 fieldClassName="mr-4"
+                toClassName="shadow-none"
                 fromFieldName="birthday_start"
                 fromPlaceholder="2023-01-01"
                 fromSelected={params.birthday_start}

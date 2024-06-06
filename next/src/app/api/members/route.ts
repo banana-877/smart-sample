@@ -22,3 +22,8 @@ export async function GET(
 
   return Response.json({})
 }
+
+export async function POST (request: NextRequest) {
+  // db.save(request.body)
+  return Response.json(request.body)
+}

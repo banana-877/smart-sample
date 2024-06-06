@@ -2,6 +2,7 @@ import { PageResponse } from '@/_types/response'
 import { SearchMembersParams } from '@/_types/params/searchMembersParams';
 import {isEmpty, notPartialMatch} from "@/_utils/stringUtils";
 import {addDay} from "@formkit/tempo";
+import {Member} from "@/_types/models/member";
 
 export default {
   /**
@@ -92,4 +93,14 @@ export default {
       }
     }
   },
+
+  async postMember(member: Member)  {
+    return fetch('/api/members', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(member),
+    })
+  }
 };
