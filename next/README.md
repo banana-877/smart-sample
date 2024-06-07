@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 環境構築手順（Next.js）
 
-## Getting Started
+- DB作成
 
-First, run the development server:
+```shell
+$ touch database/database.sqlite
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+// DBマイグレーション実行
+$ bin/drizzle-kit migrate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- npmパッケージinstall
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```shell
+$ npm ci
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- 開発サーバー起動
 
-## Learn More
+```shell
+$ npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+# 開発作業
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- スキーマ変更
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```shell
+$ vim database/schema.ts // カラム追加などの変更作業
 
-## Deploy on Vercel
+$ bin/drizzle-kit generate // shema.tsからマイグレーションファイル作成
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+$ bin/drizzle-kit migrate // DBマイグレーション実行
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- デプロイ
+
+```shell
+$ npm run build
+
+$ npm run start // SSRサーバー起動
+```
+
+# ディレクトリ構成
+```
+bin/ ................ サーバーサイドコマンド
+database/ ........... データベースのスキーマやマイグレーション管理
+public/ ............. WEB公開静的ファイル
+src/ ................ ロジック
+├─ app/
+├─ _components/
+├─ _configs/
+├─ _plugins/
+├─ _repositories/
+├─ _types/
+├─ _utils/
+└─ _validator/
+```
+
+## `app/`
+- NextJSのappルーター
+- https://nextjs.org/docs/app/building-your-application/routing#the-app-router
+
+## `_components/`
+- 複数のページで使用する可能性があるUIビジネスロジックパーツや共通ビジネスロジックを格納する
+
+## `_configs/`
+- 固定値やビジネスロジックの設定情報を格納
+
+## `_plugins/`
+- 共通インスタンス情報や、拡張機能を管理
+
+## `_repositories/`
+- データの入力ソースとI/O管理または、データに対するビジネスロジックを格納
+
+## `_types/`
+- 型定義を情報管理
+
+## `_utils/`
+- 標準クラスのutilityクラス格納
+
+## `_validator/`
+- バリデーションビジネスロジックを格納
