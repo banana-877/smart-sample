@@ -3,6 +3,7 @@ import { SearchMembersParams } from '@/_types/params/searchMembersParams';
 import {isEmpty, notPartialMatch} from "@/_utils/stringUtils";
 import {addDay} from "@formkit/tempo";
 import {Member} from "@/_types/models/member";
+import commonRepository from "@/_repositories/commonRepository";
 
 export default {
   /**
@@ -24,18 +25,9 @@ export default {
     //
 
     /////////////////////////////////////////////////////////
-    // DBから取得
-    // const members = await db.item.findUnique({ id })
-    //
-
-    /////////////////////////////////////////////////////////
     // FastAPI や NextAPIから取得も可
     // const members = (await fetch('/api/members', params)).json();
     //
-
-    const perPage = 10
-
-    const currentPage = Number.parseInt(searchParams.page ?? 1)
 
     const members = [...Array(100)]
       .map((_, i) => ({
@@ -82,15 +74,7 @@ export default {
 
     return {
       status_code: 200,
-      data: {
-        current_page: currentPage,
-        data: members.slice(perPage * (currentPage - 1), perPage * currentPage + 1),
-        from: perPage * (currentPage - 1) + 1,
-        last_page: members.length % perPage === 0 ? members.length / perPage : Math.floor(members.length / perPage) + 1,
-        per_page: perPage,
-        to: perPage * currentPage,
-        total: members.length
-      }
+      data: commonRepository.pagination(members)
     }
   },
 
