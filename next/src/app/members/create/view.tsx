@@ -9,7 +9,7 @@ import {redirect, useRouter} from "next/navigation";
 import InputError from "@/_components/FormParts/InputError";
 import {InputRadioField} from "@/_components/FormParts/InputRadioField";
 import TextAreaField from "@/_components/FormParts/TextAreaField";
-import memberRepository from "@/_repositories/memberRepository";
+import memberRepository from "@/_repositories/api/memberRepository";
 import createMemberValidator from "@/_validator/members/createMemberValidator";
 import InputDatePickerField from "@/_components/FormParts/InputDatePickerField";
 

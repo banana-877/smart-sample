@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@formkit/tempo": "^0.1.1",
+    "@libsql/client": "^0.6.2",
     "axios": "^1.7.2",
+    "better-sqlite3": "^11.0.0",
+    "drizzle-orm": "^0.31.1",
     "next": "14.2.3",
     "react": "^18",
     "react-datepicker": "^6.9.0",
@@ -22,6 +25,7 @@
     "@types/react": "^18",
     "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.22.2",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",

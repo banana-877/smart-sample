@@ -1,4 +1,4 @@
-import memberRepository from "@/_repositories/memberRepository";
+import memberRepository from "@/_repositories/api/memberRepository";
 import View from "@/app/members/view";
 import {Member} from "@/_types/models/member";
 import {SearchMembersParams} from "@/_types/params/searchMembersParams";

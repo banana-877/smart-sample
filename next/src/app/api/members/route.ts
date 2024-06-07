@@ -1,5 +1,7 @@
 import {NextRequest} from "next/server";
 import {SearchMembersParams} from "@/_types/params/searchMembersParams";
+import createMemberValidator from "@/_validator/members/createMemberValidator";
+import memberRepository, {NewMember} from "@/_repositories/model/memberRepository";
 
 export async function GET(
   request: NextRequest,
@@ -24,6 +26,16 @@ export async function GET(
 }
 
 export async function POST (request: NextRequest) {
-  // db.save(request.body)
-  return Response.json(request.body)
+  const params = await request.json()
+
+  const member = await memberRepository.insert({
+    name: params.name,
+    email: params.email,
+    tel: params.tel,
+    birthday: new Date(params.birthday).toDateString(),
+    gender: params.gender,
+    note: params.note
+  } as NewMember)
+
+  return Response.json(member)
 }

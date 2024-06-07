@@ -1,9 +1,6 @@
 import View from "@/app/members/create/view";
-import {SearchMembersParams} from "@/_types/params/searchMembersParams";
 
-export default async function Page(
-  { searchParams }: { searchParams: SearchMembersParams }
-) {
+export default async function Page() {
   //////////////////////////
   // server処理
   //
